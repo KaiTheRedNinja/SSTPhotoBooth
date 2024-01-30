@@ -1,7 +1,7 @@
 from imutils import face_utils
 import dlib
 import cv2
-import threading
+from time import time
 
 from pondfilter import pondFilter
 from sunglassesfilter import sunglassesFilter
@@ -37,6 +37,8 @@ state = 0
 image = None
 shapes = [None]
 
+last = time()
+
 while True:
     # Getting out image by webcam
     _, image = cap.read()
@@ -55,15 +57,18 @@ while True:
         shape = face_utils.shape_to_np(shape)
         shapes.append(shape)
 
-    # state machine, at some point
+    # # state machine, at some point
     result = image
     if state == 0: # sunglasses
-        result = sunglassesFilter(image, shapes[0])
+        result = sunglassesFilter(image, shapes)
     elif state == 1: # pond
-        result = pondFilter(image, shapes[0])
+        result = pondFilter(image, shapes)
 
     # show image
     cv2.imshow("Output", result)
+    now = time()
+    print("FPS: " + str(1/(now-last)))
+    last = now
 
     # process shortcuts
     k = cv2.waitKey(5) & 0xFF
