@@ -40,13 +40,13 @@ shapes = [None]
 while True:
     # Getting out image by webcam
     _, image = cap.read()
-    
+
     # Converting the image to gray scale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        
+
     # Get faces into webcam's image
     rects = detector(gray, 0)
-    
+
     # For each detected face, find the landmark.
     shapes = []
     for (i, rect) in enumerate(rects):
@@ -54,8 +54,9 @@ while True:
         shape = predictor(gray, rect)
         shape = face_utils.shape_to_np(shape)
         shapes.append(shape)
-    
+
     # state machine, at some point
+    result = image
     if state == 0: # sunglasses
         result = sunglassesFilter(image, shapes[0])
     elif state == 1: # pond
@@ -63,7 +64,7 @@ while True:
 
     # show image
     cv2.imshow("Output", result)
-    
+
     # process shortcuts
     k = cv2.waitKey(5) & 0xFF
     if k == 27: # esc
