@@ -6,6 +6,7 @@ from time import time
 from pondfilter import pondFilter
 from sunglassesfilter import sunglassesFilter
 from graywallfilter import graywallFilter
+from medalsfilter import medalsFilter
 
 # Story:
 # [x] pondstar
@@ -33,7 +34,7 @@ while True: # account for certain channels being unavailable (ie when using cont
         captureIndex += 1
 print("Finished setting up camera on channel " + str(captureIndex))
 
-state = 2
+state = 3
 image = None
 shapes = [None]
 
@@ -65,6 +66,8 @@ while True:
         result = pondFilter(image, shapes)
     elif state == 2: # gray wall
         result = graywallFilter(image, shapes)
+    elif state == 3: # north korean general
+        result = medalsFilter(image, shapes)
 
     # show image
     cv2.imshow("Output", result)
