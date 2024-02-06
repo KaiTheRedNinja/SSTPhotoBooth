@@ -22,7 +22,7 @@ predictor = dlib.shape_predictor(p)
 print("Finished loading the model.")
 
 # set up the camera
-print("Setting up camera")
+print(" [NOTICE] Setting up camera")
 captureIndex = 0
 while True: # account for certain channels being unavailable (ie when using continuity camera)
     try:
@@ -31,13 +31,33 @@ while True: # account for certain channels being unavailable (ie when using cont
     except:
         print("Could not set up on channel " + str(captureIndex))
         captureIndex += 1
-print("Finished setting up camera on channel " + str(captureIndex))
+print(" [NOTICE] Finished setting up camera on channel " + str(captureIndex))
 
-state = 3
+print("""
+=========<INSTRUCTIONS>=========
+Press , (comma) to go to the previous filter
+Press . (full stop) to go to the next filter
+Press esc to exit
+========</INSTRUCTIONS>=========
+""")
+
+state = 0
 image = None
 shapes = [None]
 
-last = time()
+def changeState(newvalue):
+    global state
+    state = newvalue
+    if state == 0:
+        print("[ X . . . ] Kai's Sunglasses")
+    elif state == 1:
+        print("[ . X . . ] Congrats, you're a Pondstar")
+    elif state == 2:
+        print("[ . . X . ] The ICONIC Gray Wall")
+    elif state == 3:
+        print("[ . . . X ] When your batch can theoretically get 6 badges")
+
+changeState(0)
 
 while True:
     # Getting out image by webcam
@@ -69,19 +89,16 @@ while True:
         result = medalsFilter(image, shapes)
 
     # show image
-    cv2.imshow("Output", result)
-    now = time()
-    # print("FPS: " + str(1/(now-last)))
-    last = now
+    cv2.imshow("SST 2025 Photo Booth", result)
 
     # process shortcuts
     k = cv2.waitKey(5) & 0xFF
     if k == 27: # esc
         break
     elif k == 44: # <
-        state = max(0, state-1)
+        changeState(max(0, state-1))
     elif k == 46: # >
-        state = min(2, state+1)
+        changeState(min(3, state+1))
 
 cv2.destroyAllWindows()
 cap.release()
