@@ -2,7 +2,7 @@ import cv2
 # import numpy as np
 import math
 # from utils import drawFace, resize, transform_image, overlay_images
-from utils import apply
+from utils import apply, drawFace
 # from imutils import face_utils
 
 sunglassessrc = cv2.imread("media/sunglasses.png", cv2.IMREAD_UNCHANGED)

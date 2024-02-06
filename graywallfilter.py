@@ -2,15 +2,15 @@ import cv2
 import numpy as np
 from utils import resize_with_translation, get_face_polygon
 
-pondimgsrc = cv2.imread("media/pond.jpeg")
+graywallsrc = cv2.imread("media/graywall.jpeg")
 
-def pondFilter(image, shapes):
-    global pondimgsrc
+def graywallFilter(image, shapes):
+    global graywallsrc
 
     (height, width, _) = image.shape
-    if image.size != pondimgsrc.size:
-        pondimgsrc = cv2.resize(pondimgsrc, (width, height))
-    pondimg = pondimgsrc.copy()
+    if image.size != graywallsrc.size:
+        graywallsrc = cv2.resize(graywallsrc, (width, height))
+    pondimg = graywallsrc.copy()
 
     # For each detected face, find the landmark.
     for shape in shapes:
@@ -21,10 +21,6 @@ def pondFilter(image, shapes):
         mask = np.zeros(image.shape[:2], np.uint8)
         cv2.drawContours(mask, [face_polygon], -1, (255,255,255), -1, cv2.LINE_AA)
         face = cv2.bitwise_and(image, image, mask=mask)
-
-        # resize it half size, but keep it where it is
-        mask = resize_with_translation(mask, (width/2, height/2), 0.5)
-        face = resize_with_translation(face, (width/2, height/2), 0.5)
 
         # apply the face and mask
         reverse_mask = cv2.bitwise_not(mask)

@@ -5,11 +5,11 @@ from time import time
 
 from pondfilter import pondFilter
 from sunglassesfilter import sunglassesFilter
+from graywallfilter import graywallFilter
 
 # Story:
-# [ ] grayscale pinapple man
 # [x] pondstar
-# [ ] gray wall
+# [x] gray wall
 # [x] sunglasses
 # [ ] no o levels except chinese (maybe the angel-demon thing)
 # [ ] north korean general (6 leadership positions)
@@ -33,7 +33,7 @@ while True: # account for certain channels being unavailable (ie when using cont
         captureIndex += 1
 print("Finished setting up camera on channel " + str(captureIndex))
 
-state = 0
+state = 2
 image = None
 shapes = [None]
 
@@ -63,6 +63,8 @@ while True:
         result = sunglassesFilter(image, shapes)
     elif state == 1: # pond
         result = pondFilter(image, shapes)
+    elif state == 2: # gray wall
+        result = graywallFilter(image, shapes)
 
     # show image
     cv2.imshow("Output", result)
@@ -77,7 +79,7 @@ while True:
     elif k == 44: # <
         state = max(0, state-1)
     elif k == 46: # >
-        state = min(1, state+1)
+        state = min(2, state+1)
 
 cv2.destroyAllWindows()
 cap.release()
