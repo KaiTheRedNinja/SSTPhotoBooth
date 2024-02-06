@@ -12,8 +12,7 @@ from medalsfilter import medalsFilter
 # [x] pondstar
 # [x] gray wall
 # [x] sunglasses
-# [ ] no o levels except chinese (maybe the angel-demon thing)
-# [ ] north korean general (6 leadership positions)
+# [x] north korean general (6 leadership positions)
 
 # load the model
 print("Loading the model...")
@@ -72,7 +71,7 @@ while True:
     # show image
     cv2.imshow("Output", result)
     now = time()
-    print("FPS: " + str(1/(now-last)))
+    # print("FPS: " + str(1/(now-last)))
     last = now
 
     # process shortcuts
